@@ -27,7 +27,7 @@ def callback_limpar_apostas():
     """Callback para limpar todas as apostas."""
     resetar_apostas()
     st.rerun()
-
+lucro_total_acumulado = st.session_state.saldo - st.session_state.saldo_inicial
 # --- Layout da Página Principal ---
 st.title("Simulador de Roleta Europeia")
 st.subheader("Simule suas estratégias e gerencie seu saldo")
@@ -35,6 +35,7 @@ st.subheader("Simule suas estratégias e gerencie seu saldo")
 # Gerenciamento de Saldo na barra lateral
 st.sidebar.subheader("Gerenciamento de Saldo")
 st.sidebar.metric("Saldo Atual", f"R$ {st.session_state.saldo:.2f}")
+st.sidebar.metric("Lucro Total Acumulado", f"R$ {lucro_total_acumulado:.2f}")
 
 # Adicionar/Remover fundos
 valor_ajuste = st.sidebar.number_input("Adicionar ou Remover Fundos", min_value=-1000.0, max_value=1000.0, step=10.0, value=0.0, format="%.2f")
@@ -72,7 +73,6 @@ if st.session_state.historico_jogadas:
     # Mostra o histórico mais recente
     df_historico = pd.DataFrame(st.session_state.historico_jogadas)
     st.dataframe(df_historico.tail(20), use_container_width=True, hide_index=True)
-    
     # Botão para download do relatório
     gerar_relatorio_download()
 

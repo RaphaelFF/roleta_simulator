@@ -66,21 +66,23 @@ def processar_jogada(numero_sorteado):
 
     ganhos_da_rodada = calcular_ganhos(numero_sorteado, st.session_state.apostas_ativas)
 
-    # Armazena o estado anterior antes da atualização
-    saldo_inicial_rodada = st.session_state.saldo + valor_total_apostado
-    saldo_final_rodada = saldo_inicial_rodada + (ganhos_da_rodada - valor_total_apostado)
-
     # Adiciona os ganhos ao saldo
     st.session_state.saldo += ganhos_da_rodada
     
+    # Calcula o lucro total acumulado
+    lucro_total_acumulado = st.session_state.saldo - st.session_state.saldo_inicial
     # Registra a jogada no histórico
     rodada_info = {
         'Numero Sorteado': numero_sorteado,
         'Valor Total Apostado': valor_total_apostado,
         'Ganhos Liquidos': ganhos_da_rodada - valor_total_apostado,
-        'Saldo Final': st.session_state.saldo
+        'Saldo Final': st.session_state.saldo,
+        'Lucro Total': lucro_total_acumulado # Adicionamos o lucro total aqui
     }
     st.session_state.historico_jogadas.append(rodada_info)
+   
+
+
 
     # **Salva o histórico em arquivo após cada jogada**
     salvar_historico(st.session_state.historico_jogadas)
@@ -88,6 +90,7 @@ def processar_jogada(numero_sorteado):
     # Exibe o resultado para o usuário
     st.success(f"Número sorteado: **{numero_sorteado}**")
     st.info(f"Ganho na rodada: R$ {ganhos_da_rodada:.2f}")
+
 
     # Limpa as apostas para a próxima rodada
     resetar_apostas()

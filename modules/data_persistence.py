@@ -9,25 +9,29 @@ SALDO_INICIAL = 200.00  # O saldo inicial do simulador
 
 def salvar_historico(historico):
     """
-    Salva o histórico de jogadas em um arquivo CSV, calculando o lucro total.
+    Salva o histórico de jogadas em um arquivo CSV.
+    A coluna Lucro Total já é passada pelo histórico.
     """
     if historico:
-        df = pd.DataFrame(historico)
-        
-        # Calcula o Lucro Total com base no saldo inicial
-        df['Lucro Total'] = df['Saldo Final'] - SALDO_INICIAL
-        
-        # Reordena as colunas para que Lucro Total fique em uma posição lógica
-        colunas_ordenadas = ['Numero Sorteado', 'Valor Total Apostado', 'Ganhos Liquidos', 'Saldo Final', 'Lucro Total']
-        df = df[colunas_ordenadas]
-        
-        # Converte as colunas numéricas para o tipo inteiro para uma formatação limpa
-        colunas_para_int = ['Numero Sorteado', 'Valor Total Apostado', 'Ganhos Liquidos', 'Saldo Final', 'Lucro Total']
-        for coluna in colunas_para_int:
-            # Use pd.to_numeric para garantir que a conversão seja segura
-            df[coluna] = pd.to_numeric(df[coluna], errors='coerce')
+        try:
+            df = pd.DataFrame(historico)
             
-        df.to_csv(NOME_ARQUIVO, index=False)
+            # Reordena as colunas
+            colunas_ordenadas = ['Numero Sorteado', 'Valor Total Apostado', 'Ganhos Liquidos', 'Saldo Final', 'Lucro Total']
+            df = df[colunas_ordenadas]
+            
+            # Converte as colunas numéricas para o tipo inteiro para uma formatação limpa
+            colunas_para_int = ['Numero Sorteado', 'Valor Total Apostado', 'Ganhos Liquidos', 'Saldo Final', 'Lucro Total']
+            for coluna in colunas_para_int:
+                # Usa pd.to_numeric para forçar a conversão, preenche NaN com 0 e então converte para Int64
+                df[coluna] = pd.to_numeric(df[coluna], errors='coerce').fillna(0).astype('Int64')
+                
+            df.to_csv(NOME_ARQUIVO, index=False)
+        except Exception as e:
+            st.error(f"Erro ao salvar o histórico: {e}")
+            st.warning("Verifique se há dados inválidos no seu histórico de jogadas.")
+            # Para depuração, você pode querer exibir o DataFrame que está causando o erro
+            # st.write(df)
     else:
         # Se o histórico estiver vazio, cria um arquivo com os cabeçalhos
         colunas = ['Numero Sorteado', 'Valor Total Apostado', 'Ganhos Liquidos', 'Saldo Final', 'Lucro Total']
@@ -40,13 +44,12 @@ def carregar_historico():
     Retorna uma lista de dicionários.
     """
     if os.path.exists(NOME_ARQUIVO):
-        df = pd.read_csv(NOME_ARQUIVO, dtype={
-            'Numero Sorteado': 'float',
-            'Valor Total Apostado': 'float',
-            'Ganhos Liquidos': 'float',
-            'Saldo Final': 'float',
-            'Lucro Total': 'float'
-        })
+        df = pd.read_csv(NOME_ARQUIVO)
+        # Garante que as colunas numéricas sejam convertidas corretamente ao carregar
+        colunas_para_int = ['Numero Sorteado', 'Valor Total Apostado', 'Ganhos Liquidos', 'Saldo Final']
+        for coluna in colunas_para_int:
+            df[coluna] = pd.to_numeric(df[coluna], errors='coerce').fillna(0).astype('Int64')
+        
         return df.to_dict('records')
     else:
         return []

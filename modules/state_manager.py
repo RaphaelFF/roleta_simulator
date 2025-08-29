@@ -8,27 +8,26 @@ APOSTAS_ESPECIAIS = {
     "Viz 23": [31,14,20,1,33,16,24,5,10,23,8,30,11,36,13,27,6,34,17],
     "viz 22": [0,26,3,35,12,28,7,29,18,22,9,31,14,20,1,33,16,24,5],
     "viz 34": [0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10],
-    "viz 1 e 2": [10,5,24,16,33,1,20,14,31,9,22,32,15,19,4,21,2,25,17,34,6,27],
-    "viz 1 29 17":[12,28,7,29,18,22,9,31,14,20,1,33,16,24,21,2,25,17,34,6,27],
-    "preto": [2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 29, 31, 33, 35],
-    "par": list(range(2, 37, 2)),
-    "impar": list(range(1, 37, 2)),
-    "1-18": list(range(1, 19)),
-    "19-36": list(range(19, 37))
+    "viz 1 e 2": [10,5,24,16,33,1,20,14,31,9,22,32,15,19,4,21,2,25,17,3,26,0]
 }
 
 def inicializar_estado():
     """
-    Inicializa todas as variáveis de estado da sessão.
+    Inicializa todas as variáveis de estado da sessão, carregando o histórico salvo.
     """
+    # Adicionamos a inicialização do saldo inicial aqui
+    if 'saldo_inicial' not in st.session_state:
+        st.session_state.saldo_inicial = 200.00
+    
     if 'saldo' not in st.session_state:
-        st.session_state.saldo = 200.00
+        st.session_state.saldo = st.session_state.saldo_inicial
+    
     if 'apostas_ativas' not in st.session_state:
-        # Dicionário para armazenar as apostas, exemplo: {numero: valor_total_apostado}
         st.session_state.apostas_ativas = {}
+    
     if 'historico_jogadas' not in st.session_state:
-        # Lista para armazenar o histórico de cada rodada
-        st.session_state.historico_jogadas = []
+        # Tenta carregar o histórico salvo
+        st.session_state.historico_jogadas = carregar_historico()
 
 def adicionar_aposta(numero, valor):
     """
