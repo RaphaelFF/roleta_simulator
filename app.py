@@ -3,10 +3,10 @@ import streamlit as st
 import pandas as pd
 
 # Importa as funções dos nossos módulos
-from modules.state_manager import inicializar_estado, adicionar_aposta, adicionar_aposta_especial, resetar_apostas
-from modules.roulette_logic import processar_jogada
-from modules.ui_components import renderizar_mesa_de_apostas
-from modules.data_persistence import gerar_relatorio_download
+from modules.gerenciador_estado import inicializar_estado, adicionar_aposta, adicionar_aposta_especial, resetar_apostas
+from modules.logica_roleta import processar_jogada
+from modules.componentes_interface import renderizar_mesa_de_apostas
+from modules.persistencia_dados import gerar_relatorio_download
 
 # --- Configuração Inicial e Gerenciamento de Estado ---
 st.set_page_config(layout="wide", page_title="Simulador de Roleta Europeia")

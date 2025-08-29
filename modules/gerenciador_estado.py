@@ -1,6 +1,6 @@
 # modules/state_manager.py
 import streamlit as st
-from .data_persistence import carregar_historico
+from .persistencia_dados import carregar_historico
 
 # Dicionário de apostas especiais com os números
 APOSTAS_ESPECIAIS = {

@@ -1,7 +1,7 @@
 # modules/roulette_logic.py
-from .state_manager import APOSTAS_ESPECIAIS, resetar_apostas
+from .gerenciador_estado import APOSTAS_ESPECIAIS, resetar_apostas
 import streamlit as st
-from .data_persistence import salvar_historico
+from .persistencia_dados import salvar_historico
 
 # Mapeamento para apostas de colunas, dúzias, par/ímpar, etc.
 # Embora o foco inicial seja apenas em números, já deixamos a estrutura para expansão.
