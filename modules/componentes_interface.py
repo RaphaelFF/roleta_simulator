@@ -1,4 +1,4 @@
-# modules/ui_components.py
+# modules/componentes_interface.py
 import streamlit as st
 
 # Mapeamento de cores dos números da roleta
@@ -16,13 +16,14 @@ def obter_estilo_numero(numero):
     else:
         return "black"
 
-def renderizar_mesa_de_apostas(callback_aposta_numero, callback_aposta_especial, valor_aposta):
+# O callback para apostas simples é um novo parâmetro
+def renderizar_mesa_de_apostas(callback_aposta_numero, callback_aposta_simples, callback_aposta_especial, valor_aposta):
     """
     Renderiza a representação visual da mesa de roleta europeia com cores e layout aprimorados.
     """
     st.write("### Apostas Internas e Externas")
     
-    # Coluna do Zero (0)
+        # Coluna do Zero (0)
     col_zero = st.columns([0.1, 1, 0.1])
     col_zero[1].button("0", key=f"num_0", on_click=callback_aposta_numero, args=(0,))
     st.markdown("---")
@@ -46,21 +47,20 @@ def renderizar_mesa_de_apostas(callback_aposta_numero, callback_aposta_especial,
                     args=(numero,),
                     help=f"Apostar R$ {valor_aposta:.2f} no número {numero}",
                 )
-    
-    # Apostas de Dúzias (1-12, 13-24, 25-36)
-    st.markdown("---")
 
     
-    # Apostas Simples (Vermelho/Preto, Par/Ímpar, 1-18/19-36)
-    st.markdown("---")
-    st.write("#### Apostas Simples")
+    # Apostas simples (1:1)
+    st.write("---")
+    st.write("#### Apostas Simples (Even Money)")
     cols_simples = st.columns(6)
-    cols_simples[0].button("1-18", key="1_18", on_click=callback_aposta_especial, args=("1-18",))
-    cols_simples[1].button("Par", key="par", on_click=callback_aposta_especial, args=("par",))
-    cols_simples[2].button("🔴", key="vermelho", on_click=callback_aposta_especial, args=("vermelho",))
-    cols_simples[3].button("⚫", key="preto", on_click=callback_aposta_especial, args=("preto",))
-    cols_simples[4].button("Ímpar", key="impar", on_click=callback_aposta_especial, args=("impar",))
-    cols_simples[5].button("19-36", key="19_36", on_click=callback_aposta_especial, args=("19-36",))
+    
+    # Agora os botões das apostas simples chamam a nova função
+    cols_simples[0].button("1-18", key="1_18", on_click=callback_aposta_simples, args=("1-18",))
+    cols_simples[1].button("Par", key="par", on_click=callback_aposta_simples, args=("par",))
+    cols_simples[2].button("🔴", key="vermelho", on_click=callback_aposta_simples, args=("vermelho",))
+    cols_simples[3].button("⚫", key="preto", on_click=callback_aposta_simples, args=("preto",))
+    cols_simples[4].button("Ímpar", key="impar", on_click=callback_aposta_simples, args=("impar",))
+    cols_simples[5].button("19-36", key="19_36", on_click=callback_aposta_simples, args=("19-36",))
 
     # Apostas Especiais (Voisins, Tiers, Orphelins)
     st.markdown("---")
@@ -70,11 +70,9 @@ def renderizar_mesa_de_apostas(callback_aposta_numero, callback_aposta_especial,
         pass
     if col_calls[1].button("Viz 23", key="Viz 23", on_click=callback_aposta_especial, args=("Viz 23",)):
         pass
-    if col_calls[2].button("Viz 22", key="Viz 22", on_click=callback_aposta_especial, args=("viz 22",)):
+    if col_calls[2].button("viz 22", key="viz 22", on_click=callback_aposta_especial, args=("viz 22",)):
         pass
-    if col_calls[3].button("Viz 34", key="Viz 34", on_click=callback_aposta_especial, args=("viz 34",)):
+    if col_calls[3].button("viz 34", key="viz 34", on_click=callback_aposta_especial, args=("viz 34",)):
         pass
-    if col_calls[4].button("Viz 1 e 2", key="Viz 1 e 2", on_click=callback_aposta_especial, args=("viz 1 e 2",)):
-        pass
-    if col_calls[5].button("Viz 1 29 17", key="Viz 1 29 17", on_click=callback_aposta_especial, args=("viz 1 29 17",)):
+    if col_calls[4].button("viz 1 e 2", key="viz 1 e 2", on_click=callback_aposta_especial, args=("viz 1 e 2",)):
         pass

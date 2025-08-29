@@ -1,6 +1,7 @@
 # modules/state_manager.py
 import streamlit as st
 from .persistencia_dados import carregar_historico
+import time
 
 # Dicionário de apostas especiais com os números
 APOSTAS_ESPECIAIS = {
@@ -17,7 +18,11 @@ def inicializar_estado():
     """
     # Adicionamos a inicialização do saldo inicial aqui
     if 'saldo_inicial' not in st.session_state:
-        st.session_state.saldo_inicial = 200.00
+        st.session_state.saldo_inicial = 200
+        
+    # Adicionamos a inicialização do lucro acumulado
+    if 'lucro_acumulado' not in st.session_state:
+        st.session_state.lucro_acumulado = 0.00
     
     if 'saldo' not in st.session_state:
         st.session_state.saldo = st.session_state.saldo_inicial
@@ -36,15 +41,14 @@ def adicionar_aposta(numero, valor):
     if st.session_state.saldo >= valor:
         st.session_state.apostas_ativas[numero] = st.session_state.apostas_ativas.get(numero, 0) + valor
         st.session_state.saldo -= valor
+        st.session_state.lucro_acumulado -= valor # **Nova regra**
         return True
     else:
         st.warning("Saldo insuficiente para realizar esta aposta.")
         return False
 
 def adicionar_aposta_especial(aposta_especial, valor_unitario):
-    """
-    Adiciona uma aposta especial (ex: Voisins) e atualiza o saldo.
-    """
+
     numeros = APOSTAS_ESPECIAIS.get(aposta_especial, [])
     custo_total = len(numeros) * valor_unitario
 
@@ -52,13 +56,25 @@ def adicionar_aposta_especial(aposta_especial, valor_unitario):
         for numero in numeros:
             st.session_state.apostas_ativas[numero] = st.session_state.apostas_ativas.get(numero, 0) + valor_unitario
         st.session_state.saldo -= custo_total
+        st.session_state.lucro_acumulado -= custo_total # **Nova regra**
         return True
     else:
         st.warning(f"Saldo insuficiente para aposta {aposta_especial}. Custo total: R$ {custo_total:.2f}")
         return False
+def adicionar_aposta_simples(aposta_simples, valor):
+    """
+    Adiciona uma aposta simples (vermelho/preto, par/ímpar) e atualiza o saldo.
+    """
+    if st.session_state.saldo >= valor:
+        st.session_state.apostas_ativas[aposta_simples] = st.session_state.apostas_ativas.get(aposta_simples, 0) + valor
+        st.session_state.saldo -= valor
+        st.session_state.lucro_acumulado -= valor # **Nova regra**
+        return True
+    else:
+        st.warning("Saldo insuficiente para realizar esta aposta.")
+        return False
 
 def resetar_apostas():
-    """
-    Limpa todas as apostas ativas.
-    """
     st.session_state.apostas_ativas = {}
+    time.sleep(2)
+    st.rerun()

@@ -5,7 +5,6 @@ import os
 
 # Nome do arquivo onde o histórico será salvo
 NOME_ARQUIVO = "historico_roleta.csv"
-SALDO_INICIAL = 200.00  # O saldo inicial do simulador
 
 def salvar_historico(historico):
     """
@@ -24,7 +23,7 @@ def salvar_historico(historico):
             colunas_para_int = ['Numero Sorteado', 'Valor Total Apostado', 'Ganhos Liquidos', 'Saldo Final', 'Lucro Total']
             for coluna in colunas_para_int:
                 # Usa pd.to_numeric para forçar a conversão, preenche NaN com 0 e então converte para Int64
-                df[coluna] = pd.to_numeric(df[coluna], errors='coerce').fillna(0).astype('Int64')
+                df[coluna] = pd.to_numeric(df[coluna], errors='coerce').fillna(0)
                 
             df.to_csv(NOME_ARQUIVO, index=False)
         except Exception as e:
@@ -48,7 +47,7 @@ def carregar_historico():
         # Garante que as colunas numéricas sejam convertidas corretamente ao carregar
         colunas_para_int = ['Numero Sorteado', 'Valor Total Apostado', 'Ganhos Liquidos', 'Saldo Final']
         for coluna in colunas_para_int:
-            df[coluna] = pd.to_numeric(df[coluna], errors='coerce').fillna(0).astype('Int64')
+            df[coluna] = pd.to_numeric(df[coluna], errors='coerce').fillna(0)
         
         return df.to_dict('records')
     else:
@@ -56,6 +55,7 @@ def carregar_historico():
 
 
 def gerar_relatorio_download():
+    
     """
     Gera um botão de download para o arquivo CSV do histórico.
     """
