@@ -52,7 +52,7 @@ def renderizar_mesa_de_apostas(callback_aposta_numero, callback_aposta_simples, 
     # Apostas simples (1:1)
     st.write("---")
     st.write("#### Apostas Simples (Even Money)")
-    cols_simples = st.columns(6)
+    cols_simples = st.columns(10)
     
     # Agora os botões das apostas simples chamam a nova função
     cols_simples[0].button("1-18", key="1_18", on_click=callback_aposta_simples, args=("1-18",))
@@ -61,11 +61,12 @@ def renderizar_mesa_de_apostas(callback_aposta_numero, callback_aposta_simples, 
     cols_simples[3].button("⚫", key="preto", on_click=callback_aposta_simples, args=("preto",))
     cols_simples[4].button("Ímpar", key="impar", on_click=callback_aposta_simples, args=("impar",))
     cols_simples[5].button("19-36", key="19_36", on_click=callback_aposta_simples, args=("19-36",))
+ 
 
     # Apostas Especiais (Voisins, Tiers, Orphelins)
     st.markdown("---")
     st.write("#### Apostas Especiais (Call Bets)")
-    col_calls = st.columns(6)
+    col_calls = st.columns(9)
     if col_calls[0].button("Viz 0", key="Viz 0", on_click=callback_aposta_especial, args=("Viz 0",)):
         pass
     if col_calls[1].button("Viz 23", key="Viz 23", on_click=callback_aposta_especial, args=("Viz 23",)):
@@ -75,4 +76,12 @@ def renderizar_mesa_de_apostas(callback_aposta_numero, callback_aposta_simples, 
     if col_calls[3].button("viz 34", key="viz 34", on_click=callback_aposta_especial, args=("viz 34",)):
         pass
     if col_calls[4].button("viz 1 e 2", key="viz 1 e 2", on_click=callback_aposta_especial, args=("viz 1 e 2",)):
+        pass
+    if col_calls[5].button("Especial Viz 0", key="Especial Viz 0", on_click=callback_aposta_especial, args=("Especial Viz 0",)):
+        pass
+    if col_calls[6].button("Especial Viz 23", key="Especial Viz 23", on_click=callback_aposta_especial, args=("Especial Viz 23",)):
+        pass
+    if col_calls[7].button("Especial viz 22", key="Especial viz 22", on_click=callback_aposta_especial, args=("Especial viz 22",)):
+        pass
+    if col_calls[8].button("Especial viz 34", key="Especial viz 34", on_click=callback_aposta_especial, args=("Especial viz 34",)):
         pass
