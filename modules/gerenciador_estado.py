@@ -13,7 +13,7 @@ APOSTAS_ESPECIAIS = {
     "Especial viz 22": [12,9,20,22,28,29,33],
     "viz 34": [0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10],
     "Especial viz 34": [19,21,25,27,30,34,36],
-    "viz 1 e 2": [10,5,24,16,33,1,20,14,31,9,22,32,15,19,4,21,2,25,17,3,26,0]
+    "viz 1 e 2": [10,5,24,16,33,1,20,14,31,9,22,32,15,19,4,21,2,25,17,3,26,0],
 }
 
 def inicializar_estado():
@@ -22,7 +22,7 @@ def inicializar_estado():
     """
     # Adicionamos a inicialização do saldo inicial aqui
     if 'saldo_inicial' not in st.session_state:
-        st.session_state.saldo_inicial = 200
+        st.session_state.saldo_inicial = 180
         
     # Adicionamos a inicialização do lucro acumulado
     if 'lucro_acumulado' not in st.session_state:

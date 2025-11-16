@@ -9,10 +9,10 @@ import time
 APOSTAS_ADICIONAIS = {
     "vermelho": [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36],
     "preto": [2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 29, 31, 33, 35],
-    "par": list(range(2, 37, 2)),
-    "impar": list(range(1, 37, 2)),
     "1-18": list(range(1, 19)),
-    "19-36": list(range(19, 37))
+    "19-36": list(range(19, 37)),
+    "Rua Fora": [1,2,3,10,11,12,13,14,15,22,23,24,25,26,27,34,35,36],
+    "Rua Dentro":[4,5,6,7,8,9,16,17,18,19,20,21,28,29,30,31,32,33]
 }
 
 def obter_apostas_vencedoras(numero_sorteado, apostas_ativas):

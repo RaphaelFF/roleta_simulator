@@ -49,10 +49,12 @@ valor_ajuste = st.sidebar.number_input("Adicionar ou Remover Fundos", min_value=
 if st.sidebar.button("Atualizar Saldo"):
     st.session_state.saldo += valor_ajuste
     st.rerun()
-
+    
 # --- Interface da Mesa de Apostas ---
-valor_aposta = st.number_input("Valor por aposta", min_value=0.5, max_value=500.0, value=0.5, step=0.5, format="%.2f", key="valor_por_aposta")
+
+valor_aposta = st.number_input("Valor por aposta", min_value=0.5, max_value=500.0, value=12.0, step=0.5, format="%.2f", key="valor_por_aposta")
 renderizar_mesa_de_apostas(callback_adicionar_aposta, callback_adicionar_aposta_simples, callback_adicionar_aposta_especial, valor_aposta)
+
 
 # Exibindo as apostas ativas
 if st.session_state.apostas_ativas:
