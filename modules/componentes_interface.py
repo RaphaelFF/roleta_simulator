@@ -20,8 +20,8 @@ def obter_estilo_numero(numero):
 def renderizar_mesa_de_apostas(callback_aposta_numero, callback_aposta_simples, callback_aposta_especial, valor_aposta):
     """
     Renderiza a representação visual da mesa de roleta europeia com cores e layout aprimorados.
-    """
-    """
+    
+    
     st.write("### Apostas Internas e Externas")
     
         # Coluna do Zero (0)
